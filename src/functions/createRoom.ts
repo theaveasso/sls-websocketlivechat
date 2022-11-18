@@ -5,6 +5,7 @@ import { formatJSONResponse } from '@libs/api-gateway';
 
 // types
 import { ddb } from '@libs/dynamodb';
+import { websocket } from '@libs/websocket';
 import { UserConnectionRecord } from 'src/types/dynamo';
 
 export const handler = async (events: APIGatewayProxyEvent) => {
@@ -21,6 +22,9 @@ export const handler = async (events: APIGatewayProxyEvent) => {
 					message: 'You needs a "Name" on Create Room',
 					type: 'error',
 				},
+				domainName,
+				stage,
+				connectionId,
 			});
 
 			return formatJSONResponse({});
@@ -46,7 +50,12 @@ export const handler = async (events: APIGatewayProxyEvent) => {
 				message: `Successfully Create Room... You are now connected to room ${roomId}`,
 				type: 'info',
 			},
+			domainName,
+			stage,
+			connectionId,
 		});
+
+		return formatJSONResponse({});
 	} catch (error) {
 		return formatJSONResponse({ statusCode: 502, data: error.message });
 	}

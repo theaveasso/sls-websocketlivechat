@@ -5,10 +5,9 @@ const dynamoResources: AWS['resources']['Resources'] = {
 		Type: 'AWS::DynamoDB::Table',
 		Properties: {
 			TableName: '${self:custom.roomConnectionTable}',
-			BillingMode: 'PAY_PER_REQUEST',
 			AttributeDefinitions: [
 				{
-					AttributeName: 'Id',
+					AttributeName: 'id',
 					AttributeType: 'S',
 				},
 				{
@@ -22,10 +21,12 @@ const dynamoResources: AWS['resources']['Resources'] = {
 			],
 			KeySchema: [
 				{
-					AttribteName: 'Id',
+					AttributeName: 'id',
 					KeyType: 'HASH',
 				},
 			],
+			BillingMode: 'PAY_PER_REQUEST',
+
 			GlobalSecondaryIndexes: [
 				{
 					IndexName: 'index1',
@@ -36,7 +37,7 @@ const dynamoResources: AWS['resources']['Resources'] = {
 						},
 						{
 							AttributeName: 'sk',
-							keyType: 'RANGE',
+							KeyType: 'RANGE',
 						},
 					],
 					Projection: {

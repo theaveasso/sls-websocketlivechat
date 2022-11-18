@@ -10,15 +10,15 @@ const serverlessConfiguration: AWS = {
 	provider: {
 		name: 'aws',
 		runtime: 'nodejs14.x',
-		profile: 'theaveasso',
+		profile: 'default',
 		region: 'ap-southeast-1',
 		iam: {
 			role: {
 				statements: [
 					{
 						Effect: 'Allow',
-						Action: 'dynamodb',
-						Resources: [
+						Action: 'dynamodb:*',
+						Resource: [
 							'arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.roomConnectionTable}',
 							'arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.roomConnectionTable}/index/index1',
 						],

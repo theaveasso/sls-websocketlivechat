@@ -10,11 +10,23 @@ interface WSSendProps {
 		type?: string;
 		from?: string;
 	};
+	domainName: string;
+	stage: string;
 	connectionId: string;
 }
 
-const websocket = {
-	send: ({ data, connectionId }: WSSendProps) => {
-		const client = new ApiGatewayManagementApi({});
+export const websocket = {
+	send: ({ data, domainName, stage, connectionId }: WSSendProps) => {
+		const client = new ApiGatewayManagementApi({
+			endpoint: `https://${domainName}/${stage}`,
+		});
+
+		const params: PostToConnectionCommandInput = {
+			ConnectionId: connectionId,
+			Data: JSON.stringify(data) as any,
+		};
+		const command = new PostToConnectionCommand(params);
+
+		return client.send(command);
 	},
 };
